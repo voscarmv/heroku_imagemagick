@@ -8,6 +8,7 @@ class UploadController < ApplicationController
     # text = session[:contenido]
     # puts text
     f = File.open(session[:contenido], "rb")
+    
     send_data(f.read, filename: "out.pdf")
   end
   def new
@@ -24,6 +25,10 @@ class UploadController < ApplicationController
     # temporal = Tempfile.open("wb"){ |f| 
     #   f.write(params[:upload][:file].read)
     # }    
+
+    # StringIO(str="", "wb"){ |f|
+    #   f.write(params[:upload][:file].read) 
+    # }
 
     t = Tempfile.new('saved', Rails.root.join('tmp'))
     t.binmode
