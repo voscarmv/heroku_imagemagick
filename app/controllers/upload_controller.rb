@@ -7,19 +7,30 @@ class UploadController < ApplicationController
     # text = "Hello, world!"
     # text = session[:contenido]
     # puts text
-    send_data(session[:contenido], filename: "out.txt")
+    f = File.open(session[:contenido], "rb")
+    send_data(f.read, filename: "out.pdf")
   end
   def new
 
   end
   def create
-    @name = params[:upload][:file].read
+    # file_content = params[:upload][:file].read
+    # puts params[:upload][:file].methods
     # send_data(@name, filename: "out.txt")
     # path = File.join("public", "incoming", "test.txt")
     # File.open(path, "wb") { |f| f.write(params[:upload][:file].read) }
     # flash[:notice] = "File uploaded"
+
+    # temporal = Tempfile.open("wb"){ |f| 
+    #   f.write(params[:upload][:file].read)
+    # }    
+
+    t = Tempfile.new('saved', Rails.root.join('tmp'))
+    t.binmode
+    t.write(params[:upload][:file].read)
+
     session[:contenido] = nil
-    session[:contenido] = @name
+    session[:contenido] = t.path
     redirect_to action: :newfile
   end
 end
