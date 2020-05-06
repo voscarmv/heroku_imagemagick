@@ -26,12 +26,12 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # processes).
 #
 # workers ENV.fetch("WEB_CONCURRENCY") { 2 }
-require 'eventmachine'
+# require 'eventmachine'
 
-on_worker_boot do
-  # start EM for each worker
-  Thread.new { EventMachine.run } unless EventMachine.reactor_running? && EventMachine.reactor_thread.alive?
-end
+# on_worker_boot do
+#   # start EM for each worker
+#   Thread.new { EventMachine.run } unless EventMachine.reactor_running? && EventMachine.reactor_thread.alive?
+# end
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
