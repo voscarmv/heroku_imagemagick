@@ -25,7 +25,7 @@ class UploadController < ApplicationController
     # temporal = Tempfile.open("wb"){ |f| 
     #   f.write(params[:upload][:file].read)
     # }    
-
+# 
     # StringIO(str="", "wb"){ |f|
     #   f.write(params[:upload][:file].read) 
     # }
