@@ -7,7 +7,12 @@ class UploadController < ApplicationController
     # text = "Hello, world!"
     # text = session[:contenido]
     # puts text
-    f = File.open(session[:contenido], "rb")
+    path = session[:contenido]
+    output = session[:contenido]
+    File.basename(output,File.extname(output))
+    output = "#{output}.pdf"
+    system("convert -density 300x300 -compress lzw -quality 1 #{path} #{output}")
+    f = File.open(output, "rb")
     
     send_data(f.read, filename: "out.pdf")
   end
