@@ -1,4 +1,18 @@
 class UploadController < ApplicationController
+  # helpers Sinatra::Streaming
+
+  # class << self
+  #   def stream(method, path, opts = {}, &block)
+  #     send(method, path, opts) do
+  #       stream do |out|
+  #         timer = EventMachine::PeriodicTimer.new(10) { out << "\0" }
+  #         out << instance_eval(&block)
+  #         timer.cancel
+  #       end
+  #     end
+  #   end
+  # end
+
   # @name = nil
   def newfile
     # @filename ="#{Rails.root}/public/incoming/test.txt"
@@ -10,11 +24,19 @@ class UploadController < ApplicationController
     path = session[:contenido]
     # output = session[:contenido]
     # File.basename(output,File.extname(output))
-    # output = "#{output}_out.pdf"
-    system("convert -density 300x300 -compress lzw -quality 1 #{path} #{path}")
-    f = File.open(path, "rb")
+    t = Tempfile.new('saved', Rails.root.join('tmp'))
+    t.binmode
+    output = t.path
+
+    # stream :get, '/test_stream' do
+    # system("convert -density 300x300 -compress lzw -quality 1 #{path} #{output} &")
+    # f = File.open(output, "rb")
     
-    send_data(f.read, filename: "out.pdf")
+    send_data(`convert -density 300x300 -compress lzw -quality 1 #{path} - &`, filename: "out.pdf")
+        # sleep 40
+      # 'done'
+    # end
+
   end
   def new
 
