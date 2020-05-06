@@ -8,11 +8,11 @@ class UploadController < ApplicationController
     # text = session[:contenido]
     # puts text
     path = session[:contenido]
-    output = session[:contenido]
-    File.basename(output,File.extname(output))
-    output = "#{output}.pdf"
-    system("convert -density 300x300 -compress lzw -quality 1 #{path} #{output}")
-    f = File.open(output, "rb")
+    # output = session[:contenido]
+    # File.basename(output,File.extname(output))
+    # output = "#{output}_out.pdf"
+    system("convert -density 300x300 -compress lzw -quality 1 #{path} #{path}")
+    f = File.open(path, "rb")
     
     send_data(f.read, filename: "out.pdf")
   end
